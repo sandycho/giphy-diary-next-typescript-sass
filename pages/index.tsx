@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 
@@ -14,7 +15,9 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         {/* TODO go to sign up page */}
-        <a href="/users">Sign me up!</a>
+        <Link href="/users">
+          <a >Sign me up!</a>
+        </Link>
       </main>
 
       <footer className={styles.footer}>

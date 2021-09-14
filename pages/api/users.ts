@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
 
 type Data = {
-  id: string
+  id: number
 }
 
 export default async function handler(
@@ -18,10 +18,14 @@ export default async function handler(
 
   if (req.method === 'POST') {
     // create user with username
-    await prisma.users.create({ data: { username } })
+    try {
+      const { id } = await prisma.users.create({ data: { username } })
+      res.status(200).json({ id })
+    } catch (err) {
+      console.log('error')
+    }
   } else {
     // Handle any other HTTP method
   }
 
-  res.status(200).json({ id: 'ABCD' })
 }
