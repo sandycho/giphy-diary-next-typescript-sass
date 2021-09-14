@@ -1,3 +1,8 @@
+:root {
+    --color-primary: #6082b6;
+    --background-color: #e5e4e2;
+}
+
 html,
 body {
     padding: 0;
@@ -16,4 +21,27 @@ ul {
 
 * {
     box-sizing: border-box;
+}
+
+button {
+    border-width: 0;
+    border-radius: 2px;
+    margin-left: 10px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-primary {
+    color: white;
+    background-color: var(--color-primary);
+}
+
+.btn-primary--disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.input-text {
+    height: 40px;
 }
