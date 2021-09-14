@@ -1,19 +1,6 @@
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "max-len": [
-      "error",
-      {
-        "code": 100
-      }
-    ],
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ]
-  }
+  "extends": [
+    "next/core-web-vitals",
+    "prettier"
+  ]
 }
