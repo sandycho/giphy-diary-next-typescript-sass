@@ -10,7 +10,6 @@ const Users: NextPage = () => {
   const router = useRouter();
   const { setLoginState } = useLogin();
 
-  // TODO check whether this async function needs special treatment
   const createUser = async () => {
     const createOrGetUser = isLogin
       ? () => fetch(`/api/user/${username}`)

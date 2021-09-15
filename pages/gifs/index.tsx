@@ -8,14 +8,22 @@ interface Gif {
   images: { fixed_height: { url: string } };
 }
 
-const getGifEndpoint = (search = "shoes") =>
-  // TODO env var
-  `https://api.giphy.com/v1/gifs/search?api_key=CSr4IirWLa0ctYx3LSuIwyrzbrt1MB6C&q=${search}&limit=25&offset=0&rating=g&lang=en`;
+const getGifEndpoint = (search = "shoes") => {
+  return `${process.env.GIPHY_URL}/search?api_key=${process.env.GIPHY_API_KEY}&limit=25&offset=0&rating=g&lang=en&q=${search}`;
+};
 
 // Resolved in build time
 export async function getStaticProps() {
-  const res = await fetch(getGifEndpoint());
-  const { data: gifs } = await res.json();
+  let gifs = [];
+  try {
+    const res = await fetch(getGifEndpoint());
+    console.log({ res });
+    const data = await res.json();
+    gifs = data.data;
+  } catch (err) {
+    // throw a friendly error
+    console.warn("Uh-oh! Something went wrong.");
+  }
 
   return {
     props: {

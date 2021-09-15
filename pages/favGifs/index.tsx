@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { useLogin } from "../../components/login";
+import { useRouter } from "next/router";
 
 interface Gif {
   images: { fixed_height: { url: string } };
@@ -14,8 +15,14 @@ const Gifs: NextPage = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [favGifs, setFavGifs] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
+    if (userId < 0) {
+      router.push("/users");
+      return;
+    }
+
     setIsLoading(true);
 
     const fetchFavGifs = async () => {
@@ -31,7 +38,7 @@ const Gifs: NextPage = (props) => {
       );
 
       const resGiphy = await fetch(
-        `https://api.giphy.com/v1/gifs?api_key=CSr4IirWLa0ctYx3LSuIwyrzbrt1MB6C&ids=${favGifsExternalIds}`
+        `${process.env.GIPHY_URL}?api_key=${process.env.GIPHY_API_KEY}&ids=${favGifsExternalIds}`
       );
 
       const { data } = await resGiphy.json();
@@ -41,7 +48,8 @@ const Gifs: NextPage = (props) => {
     try {
       fetchFavGifs();
     } catch (err) {
-      console.log({ err });
+      // throw a friendly error
+      console.warn("Uh-oh! Something went wrong.");
       setError(true);
     }
     setIsLoading(false);
