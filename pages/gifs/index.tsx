@@ -2,39 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { useLogin } from "../../components/login";
+import { useState } from "react";
 
 interface Gif {
   images: { fixed_height: { url: string } };
 }
 
+const getGifEndpoint = (search = "shoes") =>
+  // TODO env var
+  `https://api.giphy.com/v1/gifs/search?api_key=CSr4IirWLa0ctYx3LSuIwyrzbrt1MB6C&q=${search}&limit=25&offset=0&rating=g&lang=en`;
+
 // Resolved in build time
 export async function getStaticProps() {
-  // TODO env var
-  const res = await fetch(
-    "https://api.giphy.com/v1/gifs/search?api_key=CSr4IirWLa0ctYx3LSuIwyrzbrt1MB6C&q=shoes&limit=25&offset=0&rating=g&lang=en"
-  );
+  const res = await fetch(getGifEndpoint());
   const { data: gifs } = await res.json();
-
-  // const a = {
-  //   type: 'gif',
-  //   id: '26TM88tPoYX5QNGESP',
-  //   url: 'https://giphy.com/gifs/reaction-mood-26TM88tPoYX5QNGESP',
-  //   slug: 'reaction-mood-26TM88tPoYX5QNGESP',
-  //   bitly_gif_url: 'http://gph.is/2p2Vi71',
-  //   bitly_url: 'http://gph.is/2p2Vi71',
-  //   embed_url: 'https://giphy.com/embed/26TM88tPoYX5QNGESP',
-  //   username: '',
-  //   source: '',
-  //   title: 'shoes GIF',
-  //   rating: 'g',
-  //   content_url: '',
-  //   source_tld: '',
-  //   source_post_url: '',
-  //   is_sticker: 0,
-  //   import_datetime: '2018-03-09 19:45:35',
-  //   trending_datetime: '0000-00-00 00:00:00',
-  //   images: {}
-  // }
 
   return {
     props: {
@@ -43,8 +24,23 @@ export async function getStaticProps() {
   };
 }
 
-const Gifs: NextPage = ({ gifs }: any) => {
+const Gifs: NextPage = ({ gifs: gifsSeed }: any) => {
   const { userId } = useLogin();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [gifs, setGifs] = useState(gifsSeed);
+
+  const onSearch = async () => {
+    try {
+      const res = await fetch(getGifEndpoint(searchTerm));
+      const { data } = await res.json();
+
+      setGifs(data);
+    } catch (err) {
+      // throw a friendly error
+      console.warn("Uh-oh! Something went wrong.");
+    }
+  };
+
   const addToFavourites = async (gifId: string) => {
     const res = await fetch("/api/favGifs", {
       method: "POST",
@@ -65,6 +61,17 @@ const Gifs: NextPage = ({ gifs }: any) => {
           <a>Go to favourites</a>
         </Link>
       </div>
+
+      <div style={{ width: "100%", display: "flex" }}>
+        <input
+          className="input-text form-input"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button className="btn-primary form-button" onClick={onSearch}>
+          Sign me up!
+        </button>
+      </div>
+
       <ul>
         {!!gifs || !!gifs?.length
           ? gifs.map((gif: any) => (

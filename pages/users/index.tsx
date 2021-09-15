@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import styles from "../../styles/Users.module.css";
 import { useLogin } from "../../components/login";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -33,7 +32,7 @@ const Users: NextPage = () => {
 
       <div style={{ width: "100%", display: "flex" }}>
         <input
-          className={`input-text ${styles["form-input"]}`}
+          className="input-text form-input"
           placeholder="e.i. sandycho"
           onChange={(e) => setUsername(e.target.value)}
         />
