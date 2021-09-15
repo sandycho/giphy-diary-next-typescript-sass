@@ -4,10 +4,13 @@ import React, { FC } from "react";
 
 import { AppProps } from "next/app";
 import { LoginProvider } from "../components/login";
+import Page from "./_page";
 
 const App: FC<AppProps> = ({ Component, pageProps }) => (
   <LoginProvider>
-    <Component {...pageProps} />
+    <Page>
+      <Component {...pageProps} />
+    </Page>
   </LoginProvider>
 );
 

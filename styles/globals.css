@@ -1,5 +1,7 @@
 :root {
     --color-primary: #6082b6;
+    --color-primary--accent: #​4646bb;
+    --color-secondary: #38465c;
     --background-color: #e5e4e2;
 }
 
@@ -52,4 +54,18 @@ button {
 
 .form-button {
     flex: 1;
+}
+
+.app-link {
+    color: var(--color-primary--accent);
+    font-weight: 600;
+}
+
+.card {
+    border-radius: 4px;
+    box-shadow: black;
+    border-style: solid;
+    border-width: 2px;
+    padding: 30px;
+    max-width: 50%;
 }

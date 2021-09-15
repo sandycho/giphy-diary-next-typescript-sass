@@ -45,8 +45,6 @@ const Gifs: NextPage = (props) => {
       setError(true);
     }
     setIsLoading(false);
-
-    return () => {};
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
