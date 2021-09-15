@@ -1,6 +1,6 @@
 :root {
     --color-primary: #6082b6;
-    --color-primary--accent: #​4646bb;
+    --color-primary--accent: #222e3f;
     --color-secondary: #38465c;
     --background-color: #e5e4e2;
 }
@@ -63,7 +63,7 @@ button {
 
 .card {
     border-radius: 4px;
-    box-shadow: black;
+    box-shadow: var(--color-primary--accent);
     border-style: solid;
     border-width: 2px;
     padding: 30px;
