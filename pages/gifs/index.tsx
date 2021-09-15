@@ -1,9 +1,7 @@
-import { shallowEqual, useSelector } from "react-redux";
-
 import Image from "next/image";
 import Link from "next/link";
 import type { NextPage } from "next";
-import { RootState } from "../../store";
+import { useLogin } from "../../components/login";
 
 interface Gif {
   images: { fixed_height: { url: string } };
@@ -45,19 +43,9 @@ export async function getStaticProps() {
   };
 }
 
-const useUser = () => {
-  return useSelector(
-    (state: RootState) => ({
-      userId: state.userId,
-    }),
-    shallowEqual
-  );
-};
 const Gifs: NextPage = ({ gifs }: any) => {
-  const { userId } = useUser();
-
+  const { userId } = useLogin();
   const addToFavourites = async (gifId: string) => {
-    console.log("CLICK");
     const res = await fetch("/api/favGifs", {
       method: "POST",
       body: JSON.stringify({ externalId: gifId, userId }),

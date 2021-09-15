@@ -1,15 +1,14 @@
 import "../styles/globals.css";
 
-import type { AppProps } from "next/app";
-import { Provider } from "react-redux";
-import { useStore } from "../store";
+import React, { FC } from "react";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const store = useStore(pageProps.initialReduxState);
-  return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
-  );
-}
-export default MyApp;
+import { AppProps } from "next/app";
+import { LoginProvider } from "../components/login";
+
+const App: FC<AppProps> = ({ Component, pageProps }) => (
+  <LoginProvider>
+    <Component {...pageProps} />
+  </LoginProvider>
+);
+
+export default App;
