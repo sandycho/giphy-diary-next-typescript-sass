@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "db:schema:gen": "prisma generate",
+        "db:schema:gen": "prisma generate --schema db/schema.prisma",
         "db:migration:create": "prisma migrate dev --schema db/schema.prisma",
         "db:client": "prisma studio --schema ./db/schema.prisma"
     },
@@ -15,7 +15,10 @@
         "@prisma/client": "^3.0.2",
         "next": "11.1.2",
         "react": "17.0.2",
-        "react-dom": "17.0.2"
+        "react-dom": "17.0.2",
+        "react-redux": "^7.2.5",
+        "redux": "^4.1.1",
+        "redux-devtools-extension": "^2.13.9"
     },
     "devDependencies": {
         "@types/react": "17.0.20",
