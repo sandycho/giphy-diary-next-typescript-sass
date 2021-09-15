@@ -1,6 +1,7 @@
 import { shallowEqual, useSelector } from "react-redux";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { NextPage } from "next";
 import { RootState } from "../../store";
 
@@ -14,12 +15,7 @@ export async function getStaticProps() {
   const res = await fetch(
     "https://api.giphy.com/v1/gifs/search?api_key=CSr4IirWLa0ctYx3LSuIwyrzbrt1MB6C&q=shoes&limit=25&offset=0&rating=g&lang=en"
   );
-  const { data } = await res.json();
-
-  // Filtering as there are too many domain to configure in next.config.js
-  const gifs = data.filter((gif: Gif) =>
-    gif.images.fixed_height.url.includes("media2.giphy.com")
-  );
+  const { data: gifs } = await res.json();
 
   // const a = {
   //   type: 'gif',
@@ -75,8 +71,12 @@ const Gifs: NextPage = ({ gifs }: any) => {
 
   return (
     <>
-      <div>Gifs </div>
-
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>Gifs </div>
+        <Link href="/favGifs">
+          <a>Go to favourites</a>
+        </Link>
+      </div>
       <ul>
         {!!gifs || !!gifs?.length
           ? gifs.map((gif: any) => (

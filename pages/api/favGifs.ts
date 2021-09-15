@@ -6,12 +6,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { externalId, userId } = JSON.parse(req.body);
   const prisma = new PrismaClient();
 
-  console.log({ externalId, userId });
-
   if (req.method === "POST") {
+    const { externalId, userId } = JSON.parse(req.body);
     try {
       await prisma.favouritesGifs.create({
         data: { externalId, userId },
@@ -19,10 +17,20 @@ export default async function handler(
 
       res.status(200);
     } catch (err) {
-      console.log({ err });
       res.status(500); // TODO
     }
   } else {
-    // Handle any other HTTP method
+    const { userId } = req.query;
+
+    try {
+      const favGifs = await prisma.favouritesGifs.findMany({
+        where: { userId: parseInt(userId.toString()) },
+      });
+
+      res.status(200).json(favGifs);
+    } catch (err) {
+      console.log({ err }); // TODO
+      res.status(500);
+    }
   }
 }
