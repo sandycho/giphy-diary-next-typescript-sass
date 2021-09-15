@@ -17,15 +17,13 @@ export default async function userHandler(
 
   const prisma = new PrismaClient();
 
-  switch (method) {
-    case "GET":
-      // Get data from your database
-      const { id } = await prisma.users.findUnique({ where: { username } });
+  if (method === "GET") {
+    // Get data from your database
+    const { id } = await prisma.users.findUnique({ where: { username } });
 
-      res.status(200).json({ id });
-      break;
-    default:
-      res.setHeader("Allow", ["GET"]);
-      res.status(405).end(`Method ${method} Not Allowed`);
+    res.status(200).json({ id });
+  } else {
+    res.setHeader("Allow", ["GET"]);
+    res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
