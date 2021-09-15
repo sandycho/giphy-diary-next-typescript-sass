@@ -15,9 +15,9 @@ export default async function handler(
         data: { externalId, userId },
       });
 
-      res.status(200);
+      res.status(200).send("OK");
     } catch (err) {
-      res.status(500); // TODO
+      res.status(500).send("KO");
     }
   } else {
     const { userId } = req.query;
@@ -29,8 +29,7 @@ export default async function handler(
 
       res.status(200).json(favGifs);
     } catch (err) {
-      console.log({ err }); // TODO
-      res.status(500);
+      res.status(500).send("KO");
     }
   }
 }

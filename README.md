@@ -15,10 +15,23 @@ module.exports = {
     },
 }
 ```
+Also I find very useful ALL the examples in github. That's a [BIG REPO](https://github.com/vercel/next.js/tree/canary/examples) with a long list of the most popular technology although I could not find how to unit test my API in that list. Seems like they've got cover the UI with jest and cypress but I had to google it. After having a quick look to this [post](https://seanconnolly.dev/unit-testing-nextjs-api-routes) it seems very straight forward. 🤷
 
 One of mind blowing features is the [SSR and SSG](https://blog.logrocket.com/ssg-vs-ssr-in-next-js/). Having said that it was interesting to understand the solutions for shared state with Redux.
 
 In conclusion, I think is a really good framework for new and veteran developers for quick up and run project that keeps you on the right track. 
+
+# What to expect from this project
+It's a small app that creates and "signs in" user with a unique username, allows the user to save a list of favourites gif served from Giphy.
+Shared state is implemented with useContext for simplicity. 
+> **Attention!** On refresh you need to Log in again
+
+## What not to expect
+Heavy error handling
+Testing
+Routing handling
+Style system
+Strict typing
 
 ## Getting Started
 

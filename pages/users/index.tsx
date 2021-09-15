@@ -6,6 +6,9 @@ import { useState } from "react";
 
 const Users: NextPage = () => {
   const [username, setUsername] = useState<string>("");
+  const [error, setError] = useState<
+    "userAlreadyExist" | "error" | undefined
+  >();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const router = useRouter();
   const { setLoginState } = useLogin();
@@ -26,8 +29,11 @@ const Users: NextPage = () => {
       setLoginState(userId);
 
       if (res.status === 200) {
-        // redirect to gifs page and pass the user id
         router.push("/gifs");
+      }
+
+      if (res.status === 402) {
+        setError("userAlreadyExist");
       }
     } catch (err) {
       // throw a friendly error
@@ -37,7 +43,10 @@ const Users: NextPage = () => {
   return (
     <div className={styles.users}>
       <div>
-        <h1 className={styles.usersTitle}>Welcome to the Gif diary</h1>
+        <h1 className={styles.usersTitle}>
+          Welcome to
+          <br /> GIF DIARY
+        </h1>
       </div>
 
       <div>
@@ -57,14 +66,30 @@ const Users: NextPage = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
 
-          <button className="btn-primary form-button" onClick={createUser}>
+          <button
+            className={`btn-primary form-button ${
+              !username.length ? "btn-primary--disabled" : ""
+            }`}
+            onClick={createUser}
+          >
             {isLogin ? "Log me in!" : "Sign me up!"}
           </button>
         </div>
 
+        {error && (
+          <span className="error-label">
+            {error === "userAlreadyExist"
+              ? "User already exists. Login instead."
+              : "Uh-oh! Something went wrong! Refresh and retry."}
+          </span>
+        )}
+
         <a
           onClick={() => {
             setIsLogin((state) => !state);
+            if (error === "userAlreadyExist") {
+              setError(undefined);
+            }
           }}
           className={`app-link ${styles.alreadyUserLink}`}
         >

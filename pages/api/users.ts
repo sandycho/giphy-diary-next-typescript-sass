@@ -4,13 +4,19 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { PrismaClient } from "@prisma/client";
 
+// TODO create a singleton of prisma
+
 type Data = {
   id: number;
 };
 
+type Error = {
+  msg: string;
+};
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data | Error>
 ) {
   const { username } = JSON.parse(req.body);
 
@@ -20,9 +26,12 @@ export default async function handler(
     // create user with username
     try {
       const { id } = await prisma.users.create({ data: { username } });
+
       res.status(200).json({ id });
     } catch (err) {
-      console.log({ err });
+      if (err?.code === "P2002")
+        res.status(402).send({ msg: "User already exist" });
+      else res.status(400).send({ msg: "Something went wrong!" });
     }
   } else {
     res.setHeader("Allow", ["POST"]);

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
+import Header from "../_header";
+import Heart from "../../components/icons/heart";
 import Image from "next/image";
-import Link from "next/link";
 import type { NextPage } from "next";
+import styles from "../../styles/Gifs.module.scss";
 import { useLogin } from "../../components/login";
 import { useRouter } from "next/router";
 
@@ -60,17 +62,12 @@ const Gifs: NextPage = (props) => {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>Favourites</div>
-        <Link href="/gifs">
-          <a>Go to gifs</a>
-        </Link>
-      </div>
+      <Header title="Favourites" leftLink="/gifs" leftLabel="Go to gifs" />
 
-      <ul>
+      <div className={styles.gifsContainer}>
         {!!favGifs || !!favGifs?.length
-          ? favGifs.map((gif: any) => (
-              <li key={gif.id}>
+          ? favGifs.map((gif: any, i: number) => (
+              <div className={styles.gif} key={gif.id + Date.now() + i}>
                 <div>
                   <Image
                     src={gif.images.fixed_height.url}
@@ -78,11 +75,21 @@ const Gifs: NextPage = (props) => {
                     height="200"
                     width="200"
                   />
+                  <Heart
+                    style={{
+                      width: 50,
+                      height: 50,
+                      position: "absolute",
+                      right: 5,
+                      top: 3,
+                    }}
+                    fill="red"
+                  />
                 </div>
-              </li>
+              </div>
             ))
           : ""}
-      </ul>
+      </div>
     </>
   );
 };

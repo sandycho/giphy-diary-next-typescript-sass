@@ -3,6 +3,7 @@
     --color-primary--accent: #222e3f;
     --color-secondary: #38465c;
     --background-color: #e5e4e2;
+    --color-error: #be3333
 }
 
 html,
@@ -61,6 +62,12 @@ button {
     .form-button {
         flex: 1;
     }
+}
+
+.error-label {
+    margin-top: 8px;
+    color: var(--color-error);
+    font-size: 14px;
 }
 
 // LINK
