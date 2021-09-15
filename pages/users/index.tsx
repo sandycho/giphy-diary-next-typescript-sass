@@ -12,11 +12,16 @@ const Users: NextPage = () => {
 
   // TODO check whether this async function needs special treatment
   const createUser = async () => {
+    const createOrGetUser = isLogin
+      ? () => fetch(`/api/user/${username}`)
+      : () =>
+          fetch("/api/users", {
+            method: "POST",
+            body: JSON.stringify({ username }),
+          });
+
     try {
-      const res = await fetch("/api/users", {
-        method: "POST",
-        body: JSON.stringify({ username }),
-      });
+      const res = await createOrGetUser();
       const { id: userId } = await res.json();
 
       setLoginState(userId);
