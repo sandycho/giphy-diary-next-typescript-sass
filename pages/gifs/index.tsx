@@ -1,16 +1,25 @@
-import Image from 'next/image'
-import type { NextPage } from "next"
+import { shallowEqual, useSelector } from "react-redux";
 
-interface Gif { images: { fixed_height: { url: string } } }
+import Image from "next/image";
+import type { NextPage } from "next";
+import { RootState } from "../../store";
+
+interface Gif {
+  images: { fixed_height: { url: string } };
+}
 
 // Resolved in build time
 export async function getStaticProps() {
   // TODO env var
-  const res = await fetch('https://api.giphy.com/v1/gifs/search?api_key=CSr4IirWLa0ctYx3LSuIwyrzbrt1MB6C&q=shoes&limit=25&offset=0&rating=g&lang=en')
-  const { data } = await res.json()
+  const res = await fetch(
+    "https://api.giphy.com/v1/gifs/search?api_key=CSr4IirWLa0ctYx3LSuIwyrzbrt1MB6C&q=shoes&limit=25&offset=0&rating=g&lang=en"
+  );
+  const { data } = await res.json();
 
   // Filtering as there are too many domain to configure in next.config.js
-  const gifs = data.filter((gif: Gif) => gif.images.fixed_height.url.includes('media2.giphy.com'))
+  const gifs = data.filter((gif: Gif) =>
+    gif.images.fixed_height.url.includes("media2.giphy.com")
+  );
 
   // const a = {
   //   type: 'gif',
@@ -37,33 +46,55 @@ export async function getStaticProps() {
     props: {
       gifs,
     },
-  }
+  };
 }
 
-const addToFavourites = (gifId: string) => {
-  console.warn('No implemented!')
-  // make a api call
-}
-
+const useUser = () => {
+  return useSelector(
+    (state: RootState) => ({
+      userId: state.userId,
+    }),
+    shallowEqual
+  );
+};
 const Gifs: NextPage = ({ gifs }: any) => {
-  return (<>
-    <div>Gifs </div>
+  const { userId } = useUser();
 
-    <ul>
-      {!!gifs || !!gifs?.length
-        ? gifs.map((gif: any) =>
-          <li key={gif.id}>
-            <div onClick={()=>addToFavourites(gif.id)}>
-              <Image 
-                src={gif.images.fixed_height.url} 
-                alt="Gif" 
-                height="200" 
-                width="200" />
-            </div>
-          </li>)
-        : ""}
-    </ul>
-  </>)
-}
+  const addToFavourites = async (gifId: string) => {
+    console.log("CLICK");
+    const res = await fetch("/api/favGifs", {
+      method: "POST",
+      body: JSON.stringify({ externalId: gifId, userId }),
+    });
 
-export default Gifs
+    if (res.status !== 200) {
+      // throw a friendly error
+      console.warn("Uh-oh! Something went wrong.");
+    }
+  };
+
+  return (
+    <>
+      <div>Gifs </div>
+
+      <ul>
+        {!!gifs || !!gifs?.length
+          ? gifs.map((gif: any) => (
+              <li key={gif.id}>
+                <div onClick={() => addToFavourites(gif.id)}>
+                  <Image
+                    src={gif.images.fixed_height.url}
+                    alt="Gif"
+                    height="200"
+                    width="200"
+                  />
+                </div>
+              </li>
+            ))
+          : ""}
+      </ul>
+    </>
+  );
+};
+
+export default Gifs;
