@@ -39,6 +39,7 @@ First, generate db schema:
 
 ```bash
 yarn db:schema:gen
+yarn db:migration:create
 ```
 
 Second, update Giphy API Key in next.config.js:
