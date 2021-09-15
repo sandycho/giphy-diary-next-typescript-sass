@@ -18,6 +18,13 @@
 .formContainer {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    @media (min-width: 768px) {
+        width: 80%;
+    }
+    @media (min-width: 1366px) {
+        width: 50%;
+    }
 }
 
 .form {

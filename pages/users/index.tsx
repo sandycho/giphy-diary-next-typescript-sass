@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import styles from "../../styles/Users.module.css";
+import styles from "../../styles/Users.module.scss";
 import { useLogin } from "../../components/login";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -49,11 +49,8 @@ const Users: NextPage = () => {
         </p>
       </div>
 
-      <div
-        className={`card ${styles.formContainer}`}
-        style={{ width: "100%", display: "flex" }}
-      >
-        <div className={styles.form}>
+      <div className={`card ${styles.formContainer}`}>
+        <div className={`form ${styles.form}`}>
           <input
             className="input-text form-input"
             placeholder="e.i. sandycho"

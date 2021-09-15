@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import type { NextPage } from "next";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.scss";
 
 const Home: NextPage = () => {
   return (
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         {/* TODO go to sign up page */}
         <Link href="/users">
-          <a>Let me in!</a>
+          <div className="btn-primary">Let me in!</div>
         </Link>
       </main>
 
