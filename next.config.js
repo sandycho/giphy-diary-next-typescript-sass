@@ -7,6 +7,6 @@ module.exports = {
     env: {
         API_URL: "http: //localhost:3000",
         GIPHY_URL: "https://api.giphy.com/v1/gifs",
-        GIPHY_API_KEY: "CSr4IirWLa0ctYx3LSuIwyrzbrt1MB6C"
+        GIPHY_API_KEY: "XYZ"
     }
 }
